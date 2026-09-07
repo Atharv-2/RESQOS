@@ -1,22 +1,22 @@
 import requests
-from agents.config.regions import REGIONS
 
-def get_weather(latitude,longitude):
-    """Get the current weather of the specified location usingthe OpenMeteo API."""
-    url="https://api.open-meteo.com/v1/forecast"
+
+def get_weather(latitude, longitude):
+    """Fetch hourly weather forecast for a given location from Open-Meteo."""
+    url = "https://api.open-meteo.com/v1/forecast"
+
     params = {
         "latitude": latitude,
         "longitude": longitude,
         "hourly": "precipitation,precipitation_probability,temperature_2m",
         "forecast_days": 1
     }
-    
-    response=requests.get(url,params=params,timeout=10)
-    
+
+    response = requests.get(url, params=params, timeout=10)
     response.raise_for_status()
-    
-    data=response.json()
-    
+
+    data = response.json()
+
     return data["hourly"]
 
 
@@ -34,17 +34,4 @@ def summarize_weather(weather_data):
         "max_rain_probability": max_rain_probability
     }
     
-if __name__ == "__main__":
-    region = REGIONS[4]
 
-    name = region["name"]
-    latitude = region["latitude"]
-    longitude = region["longitude"]
-
-    weather = get_weather(latitude, longitude)
-    summary = summarize_weather(weather)
-
-    print("Region:", name)
-    print("Weather:", summary)
-    
-    

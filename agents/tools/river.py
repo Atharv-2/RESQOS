@@ -1,12 +1,21 @@
+
 import os
 import psycopg
 from dotenv import load_dotenv
 from langchain_core.tools import tool
+
 load_dotenv()
 
+
 @tool
-def get_nearby_waterways(latitude:float, longitude:float, radius_km:float=2):
-    """Find nearby rivers and streams within the specified radius using PostGIS."""
+def get_nearby_waterways(
+    latitude: float,
+    longitude: float,
+    radius_km: float = 2
+):
+    """
+    Find rivers/waterways near a given latitude and longitude.
+    """
 
     radius_m = radius_km * 1000
 
@@ -19,29 +28,46 @@ def get_nearby_waterways(latitude:float, longitude:float, radius_km:float=2):
     )
 
     query = """
-    SELECT
-        osm_id,
-        name,
-        waterway,
-        ST_Distance(
-            ST_Transform(way, 4326)::geography,
-            ST_SetSRID(ST_MakePoint(%s, %s), 4326)::geography
-        ) AS distance_m
-    FROM uttarakhand_waterways
-    WHERE ST_DWithin(
-        ST_Transform(way, 4326)::geography,
-        ST_SetSRID(ST_MakePoint(%s, %s), 4326)::geography,
-        %s
-    )
-    ORDER BY distance_m;
+        SELECT
+            gid,
+            rivname,
+            uid_river,
+            length_km,
+            st_loc_dst,
+            en_loc_dst,
+            ST_Distance(
+                way::geography,
+                ST_SetSRID(
+                    ST_MakePoint(%s, %s),
+                    4326
+                )::geography
+            ) AS distance_m
+        FROM public.uttarakhand_waterways
+        WHERE ST_DWithin(
+            way::geography,
+            ST_SetSRID(
+                ST_MakePoint(%s, %s),
+                4326
+            )::geography,
+            %s
+        )
+        ORDER BY distance_m
+        LIMIT 20;
     """
 
     with conn:
         with conn.cursor() as cur:
             cur.execute(
                 query,
-                (longitude, latitude, longitude, latitude, radius_m)
+                (
+                    longitude,
+                    latitude,
+                    longitude,
+                    latitude,
+                    radius_m
+                )
             )
+
             rows = cur.fetchall()
 
     conn.close()
@@ -50,23 +76,25 @@ def get_nearby_waterways(latitude:float, longitude:float, radius_km:float=2):
 
     for row in rows:
         waterways.append({
-            "osm_id": row[0],
-            "name": row[1],
-            "waterway": row[2],
-            "distance_m": round(row[3], 2)
+            "gid": row[0],
+            "river_name": row[1],
+            "river_id": row[2],
+            "length_km": float(row[3]) if row[3] is not None else None,
+            "start_district": row[4],
+            "end_district": row[5],
+            "distance_m": round(row[6], 2)
         })
 
     return waterways
 
-
 if __name__ == "__main__":
-    waterways = get_nearby_waterways.invoke({
+    result = get_nearby_waterways.invoke({
         "latitude": 30.3165,
         "longitude": 78.0322,
-        "radius_km": 5
+        "radius_km": 10
     })
 
-    print("Nearby waterways:", len(waterways))
+    print("\n--- NEARBY RIVERS ---")
 
-    for waterway in waterways[:5]:
-        print(waterway)
+    for river in result:
+        print(river)

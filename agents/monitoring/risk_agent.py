@@ -9,6 +9,8 @@ from agents.config.regions import REGIONS
 
 from agents.tools.elevation import get_elevation
 from agents.tools.river import get_nearby_waterways
+from agents.tools.hospital import get_nearby_hospitals
+from agents.tools.police import get_nearby_police_stations
 
 
 # Load environment variables
@@ -26,7 +28,9 @@ llm = ChatGroq(
 # Tools available to the agent
 tools = [
     get_elevation,
-    get_nearby_waterways
+    get_nearby_waterways,
+    get_nearby_hospitals,
+    get_nearby_police_stations
 ]
 
 

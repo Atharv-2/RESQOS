@@ -11,6 +11,9 @@ from agents.tools.elevation import get_elevation
 from agents.tools.river import get_nearby_waterways
 from agents.tools.hospital import get_nearby_hospitals
 from agents.tools.police import get_nearby_police_stations
+from agents.tools.shelter import get_nearby_emergency_points
+
+
 
 
 # Load environment variables
@@ -30,7 +33,8 @@ tools = [
     get_elevation,
     get_nearby_waterways,
     get_nearby_hospitals,
-    get_nearby_police_stations
+    get_nearby_police_stations,
+    get_nearby_emergency_points
 ]
 
 

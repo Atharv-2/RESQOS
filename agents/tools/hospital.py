@@ -31,10 +31,8 @@ def get_nearby_hospitals(
             gid,
             name,
             amenity,
-            "addr:city",
-            phone,
             ST_Distance(
-                way::geography,
+                ST_Transform(way, 4326)::geography,
                 ST_SetSRID(
                     ST_MakePoint(%s, %s),
                     4326
@@ -42,7 +40,7 @@ def get_nearby_hospitals(
             ) AS distance_m
         FROM public.emergency_hospitals
         WHERE ST_DWithin(
-            way::geography,
+            ST_Transform(way, 4326)::geography,
             ST_SetSRID(
                 ST_MakePoint(%s, %s),
                 4326
@@ -77,9 +75,7 @@ def get_nearby_hospitals(
             "gid": row[0],
             "name": row[1],
             "amenity": row[2],
-            "city": row[3],
-            "phone": row[4],
-            "distance_m": round(row[5], 2)
+            "distance_m": round(row[3], 2)
         })
 
     return hospitals

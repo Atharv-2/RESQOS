@@ -31,9 +31,8 @@ def get_nearby_police_stations(
             gid,
             name,
             amenity,
-            "addr:city",
             ST_Distance(
-                way::geography,
+                ST_Transform(way, 4326)::geography,
                 ST_SetSRID(
                     ST_MakePoint(%s, %s),
                     4326
@@ -41,7 +40,7 @@ def get_nearby_police_stations(
             ) AS distance_m
         FROM public.emergency_police
         WHERE ST_DWithin(
-            way::geography,
+            ST_Transform(way, 4326)::geography,
             ST_SetSRID(
                 ST_MakePoint(%s, %s),
                 4326
@@ -76,8 +75,7 @@ def get_nearby_police_stations(
             "gid": row[0],
             "name": row[1],
             "amenity": row[2],
-            "city": row[3],
-            "distance_m": round(row[4], 2)
+            "distance_m": round(row[3], 2)
         })
 
     return police_stations

@@ -13,8 +13,8 @@ def get_nearby_emergency_points(
     radius_km: float = 10
 ):
     """
-    Find nearby emergency points such as community centres
-    and town halls for flood and cloudburst response.
+    Find nearby emergency points such as shelters,
+    community centres, town halls and fire stations.
     """
 
     radius_m = radius_km * 1000
@@ -33,7 +33,7 @@ def get_nearby_emergency_points(
             name,
             point_type,
             ST_Distance(
-                way::geography,
+                ST_Transform(way, 4326)::geography,
                 ST_SetSRID(
                     ST_MakePoint(%s, %s),
                     4326
@@ -41,7 +41,7 @@ def get_nearby_emergency_points(
             ) AS distance_m
         FROM public.emergency_points
         WHERE ST_DWithin(
-            way::geography,
+            ST_Transform(way, 4326)::geography,
             ST_SetSRID(
                 ST_MakePoint(%s, %s),
                 4326

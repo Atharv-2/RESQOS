@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RESQOS – AI-Powered Decision Support System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a class="logo" href="#home" aria-label="RESQOS home"><span class="logo-mark" data-icon="shield"></span>RESQOS</a>
+      <div class="links" id="links">
+        <a href="#home">Home</a><a href="#about">About</a><a href="#features">Features</a><a href="#contact">Contact</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="dashboard.html">View Dashboard</a>
+        <button class="menu" id="menu" aria-label="Toggle menu" aria-expanded="false" data-icon="menu"></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>AI-Powered Decision Support for Disaster Preparedness</h1>
+        <p class="lead">RESQOS helps authorities transform heavy-rain alerts into location-specific risk information, emergency-resource awareness and preparedness recommendations.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#about">Explore RESQOS</a>
+          <a class="btn btn-ghost" href="#dashboard">View Dashboard</a>
+        </div>
+        <p class="note">Built for heavy-rain preparedness in Uttarakhand.</p>
+      </div>
+      <div class="visual">
+        <svg viewBox="0 0 520 420" role="img" aria-label="Illustration of a terrain map with a heavy-rain cloud, a location marker with a risk zone and nearby emergency resources">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--sky)"/><stop offset="1" stop-color="var(--teal-soft)"/></linearGradient></defs>
+          <rect width="520" height="420" rx="14" fill="url(#g)"/>
+          <g fill="none" stroke="var(--teal)" stroke-opacity=".28" stroke-width="1.5">
+            <path d="M-10 330C80 290 140 300 220 270S380 250 530 290"/>
+            <path d="M-10 290C90 240 150 262 230 225S390 200 530 250"/>
+            <path d="M-10 250C100 190 170 222 250 180S400 150 530 210"/>
+            <path d="M-10 210C110 140 190 182 270 135S410 100 530 170"/>
+            <path d="M-10 170C120 90 210 142 290 92S420 55 530 130"/>
+          </g>
+          <path d="M40 420C90 340 150 330 200 290S250 200 330 170S440 150 500 90" fill="none" stroke="var(--teal)" stroke-width="5" stroke-opacity=".35" stroke-linecap="round"/>
+          <path d="M60 130L200 250L360 300L470 330" fill="none" stroke="var(--navy)" stroke-opacity=".35" stroke-width="2" stroke-dasharray="6 6"/>
+          <!-- rain cloud -->
+          <g transform="translate(330 30)">
+            <path d="M30 70a26 26 0 1 1 6-51 34 34 0 0 1 64 8 22 22 0 0 1-2 43z" fill="var(--surface)" stroke="var(--teal)" stroke-width="2.5"/>
+            <g class="rain"><line x1="32" y1="82" x2="28" y2="96"/><line x1="52" y1="82" x2="48" y2="96"/><line x1="72" y1="82" x2="68" y2="96"/><line x1="92" y1="82" x2="88" y2="96"/></g>
+          </g>
+          <!-- risk zone -->
+          <circle class="pulse" cx="250" cy="235" r="60" fill="var(--teal)" fill-opacity=".22"/>
+          <circle cx="250" cy="235" r="60" fill="var(--teal)" fill-opacity=".12" stroke="var(--teal)" stroke-dasharray="5 5"/>
+          <path d="M250 262s-16-14-16-27a16 16 0 0 1 32 0c0 13-16 27-16 27z" fill="var(--navy)"/><circle cx="250" cy="235" r="6" fill="#fff"/>
+          <!-- resources -->
+          <g font-family="Manrope,sans-serif" font-weight="800" font-size="15" text-anchor="middle" fill="#fff">
+            <rect x="120" y="180" width="30" height="30" rx="8" fill="var(--teal)"/><text x="135" y="201">H</text>
+            <rect x="330" y="205" width="30" height="30" rx="8" fill="var(--navy)"/><text x="345" y="226">P</text>
+            <rect x="285" y="300" width="30" height="30" rx="8" fill="var(--teal)"/><text x="300" y="321">S</text>
+          </g>
+          <g transform="translate(24 370)"><rect width="196" height="28" rx="14" fill="var(--surface)" fill-opacity=".9"/><text x="98" y="19" text-anchor="middle" font-family="Manrope,sans-serif" font-size="12" font-weight="600" fill="var(--muted)">Illustrative concept · mock visual</text></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Why RESQOS?</h2>
+        <p class="lead">Weather alerts can warn about hazardous rainfall, but authorities still need location-specific information about risk, nearby emergency resources and the actions to prepare. RESQOS brings these together in one decision-support view.</p>
+      </div>
+      <div class="flow" id="flow"></div>
+    </div>
+  </section>
+
+  <section class="alt" id="features">
+    <div class="wrap">
+      <div class="sec-head"><h2>Features</h2><p class="lead">Four capabilities designed to support preparedness decisions before heavy rain arrives.</p></div>
+      <div class="cards4" id="features-grid"></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head"><h2>How RESQOS Works</h2><p class="lead">A six-step workflow from incoming weather information to a clear view for decision-makers.</p></div>
+      <ol class="tl" id="timeline"></ol>
+    </div>
+  </section>
+
+  <section class="alt" id="users">
+    <div class="wrap">
+      <div class="sec-head"><h2>Intended Users</h2><p class="lead">RESQOS is designed to support the teams who plan and coordinate heavy-rain response.</p></div>
+      <div class="users" id="users-grid"></div>
+    </div>
+  </section>
+
+  <section id="dashboard">
+    <div class="wrap">
+      <div class="cta">
+        <h2>Dashboard coming soon</h2>
+        <p>This is a placeholder for the RESQOS dashboard. Live data and analysis will be connected in a later stage of the project.</p>
+        <a class="btn btn-primary" href="#home">Back to top</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot">
+      <div><strong>RESQOS – AI-Powered Decision Support System</strong><br>Heavy-rain preparedness decision support for Uttarakhand.</div>
+      <div>Contact: <a href="#contact">team@example.edu</a> (placeholder)</div>
+    </div>
+    <small>A university minor project. Prototype for academic demonstration only; not an operational emergency system.</small>
+  </div>
+</footer>
+</body>
+</html>

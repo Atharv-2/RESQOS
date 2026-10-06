@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RESQOS – Disaster Preparedness Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+<script src="dashboard.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a class="logo" href="index.html" aria-label="RESQOS home"><span class="logo-mark" data-icon="shield"></span>RESQOS</a>
+      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html" class="active" aria-current="page">Dashboard</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Page heading + search -->
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Demo dashboard · frontend prototype</span>
+      <h1>Disaster Preparedness Dashboard</h1>
+      <p class="lead">Location-specific heavy-rain risk assessment, nearby emergency-resource awareness and preparedness recommendations for Uttarakhand.</p>
+
+      <form class="search" id="search-form" role="search" novalidate>
+        <label class="sr-only" for="location-input">Location</label>
+        <div class="field">
+          <span class="field-ico" data-icon="pin"></span>
+          <input type="text" id="location-input" name="location" placeholder="Enter location e.g. Dehradun" autocomplete="off" maxlength="60">
+        </div>
+        <button class="btn btn-primary" type="submit"><span class="btn-ico" data-icon="search"></span>Analyze Location</button>
+      </form>
+      <p class="msg" id="search-msg" role="status" aria-live="polite"></p>
+
+      <p class="current-loc">Showing results for: <strong id="location-name">Dehradun</strong><span class="badge badge-demo">Demo data</span></p>
+    </div>
+  </section>
+
+  <!-- Weather summary -->
+  <section class="block" id="weather">
+    <div class="wrap">
+      <div class="sec-head"><h2>Weather Summary</h2><p class="lead">Current conditions for the selected location (dummy values).</p></div>
+      <div class="stats">
+        <article class="stat">
+          <div class="ico" data-icon="temp"></div>
+          <p class="stat-label">Temperature</p>
+          <p class="stat-value" id="temperature">22°C</p>
+        </article>
+        <article class="stat">
+          <div class="ico" data-icon="rain"></div>
+          <p class="stat-label">Rainfall</p>
+          <p class="stat-value"id="rainfall">62 mm</p>
+        </article>
+        <article class="stat">
+          <div class="ico" data-icon="drop"></div>
+          <p class="stat-label">Humidity</p>
+          <p class="stat-value" id="humidity">89%</p>
+        </article>
+        <article class="stat">
+          <div class="ico" data-icon="cloud"></div>
+          <p class="stat-label">Weather Condition</p>
+         <p class="stat-value" id="weather-condition">--</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map + risk -->
+  <section class="block alt" id="risk">
+    <div class="wrap">
+      <div class="sec-head"><h2>Risk Overview</h2><p class="lead">Risk level, factor breakdown and the area map for the selected location.</p></div>
+
+      <div class="risk-grid">
+        <!-- Map placeholder -->
+        <div class="panel map-panel">
+          <div class="panel-head">
+            <h3>Risk Map</h3>
+            <span class="badge badge-demo">Placeholder</span>
+          </div>
+          <div class="map-box">
+            <svg viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrative terrain map placeholder showing a high-risk zone, a river and emergency resource markers">
+              <defs><linearGradient id="mapg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--sky)"/><stop offset="1" stop-color="var(--teal-soft)"/></linearGradient></defs>
+              <rect width="800" height="480" fill="url(#mapg)"/>
+              <g fill="none" stroke="var(--teal)" stroke-opacity=".28" stroke-width="1.5">
+                <path d="M-10 420C120 370 220 385 340 350S560 330 810 380"/>
+                <path d="M-10 370C130 305 230 335 350 290S570 262 810 330"/>
+                <path d="M-10 320C140 240 250 285 370 230S580 195 810 280"/>
+                <path d="M-10 270C150 175 270 235 390 170S590 128 810 230"/>
+                <path d="M-10 220C160 110 290 185 410 112S600 62 810 180"/>
+                <path d="M-10 170C170 45 310 135 430 55S610 0 810 130"/>
+              </g>
+              <path d="M40 480C120 400 220 390 300 330S430 250 540 215S700 150 790 70" fill="none" stroke="var(--teal)" stroke-width="9" stroke-opacity=".4" stroke-linecap="round"/>
+              <path d="M70 90L280 230L470 300L720 350" fill="none" stroke="var(--navy)" stroke-opacity=".3" stroke-width="2" stroke-dasharray="7 7"/>
+              <!-- risk zone -->
+              <circle cx="540" cy="200" r="120" fill="var(--high)" fill-opacity=".14"/>
+              <circle cx="540" cy="200" r="120" fill="none" stroke="var(--high)" stroke-width="2" stroke-dasharray="7 6" stroke-opacity=".7"/>
+              <circle cx="540" cy="200" r="64" fill="var(--high)" fill-opacity=".2"/>
+              <path d="M540 226s-18-15-18-30a18 18 0 0 1 36 0c0 15-18 30-18 30z" fill="var(--navy)"/><circle cx="540" cy="196" r="6.5" fill="#fff"/>
+              <!-- resources -->
+              <g font-family="Manrope,sans-serif" font-weight="800" font-size="16" text-anchor="middle" fill="#fff">
+                <rect x="360" y="110" width="34" height="34" rx="9" fill="var(--teal)"/><text x="377" y="133">H</text>
+                <rect x="690" y="215" width="34" height="34" rx="9" fill="var(--navy)"/><text x="707" y="238">P</text>
+                <rect x="610" y="300" width="34" height="34" rx="9" fill="var(--teal)"/><text x="627" y="323">S</text>
+              </g>
+            </svg>
+            <div class="map-overlay">
+              <div class="ico" data-icon="map"></div>
+              <p class="map-title">Interactive risk map will be integrated here.</p>
+              <p class="map-sub">Selected location: <strong id="map-location">Dehradun</strong></p>
+            </div>
+            <ul class="legend" aria-label="Map legend">
+              <li><span class="sw sw-high"></span>High risk zone</li>
+              <li><span class="sw sw-river"></span>River</li>
+              <li><span class="sw sw-res"></span>Resources (H / P / S)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="side">
+          <article class="panel risk-card" aria-label="Risk summary">
+            <div class="panel-head"><h3>Risk Summary</h3><span class="badge badge-demo">Demo data</span></div>
+            <div class="risk-body">
+              <div class="gauge" aria-hidden="true"><div class="gauge-in"><strong>79</strong><span>/100</span></div></div>
+              <div>
+                <p class="stat-label">Risk Level</p>
+                <p class="level"><span class="level-dot" aria-hidden="true"></span>HIGH</p>
+                <p class="stat-label score-line">Risk Score: <strong>79/100</strong></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel" aria-label="Risk assessment">
+            <div class="panel-head"><h3>Risk Assessment</h3><span class="badge badge-demo">Demo scores</span></div>
+            <ul class="bars">
+              <li>
+                <div class="bar-top"><span>Rainfall Risk</span><strong>90/100</strong></div>
+                <div class="bar high"><span class="w-90"></span></div>
+              </li>
+              <li>
+                <div class="bar-top"><span>Terrain Risk</span><strong>70/100</strong></div>
+                <div class="bar mod"><span class="w-70"></span></div>
+              </li>
+              <li>
+                <div class="bar-top"><span>River Proximity Risk</span><strong>80/100</strong></div>
+                <div class="bar high"><span class="w-80"></span></div>
+              </li>
+              <li>
+                <div class="bar-top"><span>Drainage Risk</span><strong>60/100</strong></div>
+                <div class="bar mod"><span class="w-60"></span></div>
+              </li>
+              <li class="overall">
+                <div class="bar-top"><span>Overall Risk</span><strong>79/100</strong></div>
+                <div class="bar high"><span class="w-79"></span></div>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section class="block" id="resources">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Nearby Emergency Resources</h2>
+        <p class="lead">Closest emergency facilities to the selected location.</p>
+      </div>
+      <p class="notice"><span data-icon="info"></span><span><strong>Placeholder resources.</strong> The facilities and distances below are demo entries, not real locations.</span></p>
+      <div class="cards3">
+        <article class="card">
+          <div class="ico" data-icon="hospital"></div>
+          <h3>Hospital</h3>
+          <p class="dist">2.1 km away</p>
+          <span class="badge badge-demo">Demo resource</span>
+        </article>
+        <article class="card">
+          <div class="ico" data-icon="police"></div>
+          <h3>Police Station</h3>
+          <p class="dist">1.4 km away</p>
+          <span class="badge badge-demo">Demo resource</span>
+        </article>
+        <article class="card">
+          <div class="ico" data-icon="building"></div>
+          <h3>Emergency Shelter</h3>
+          <p class="dist">3.2 km away</p>
+          <span class="badge badge-demo">Demo resource</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI plan -->
+  <section class="block alt" id="plan">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>AI Preparedness Plan</h2>
+        <p class="lead">Recommended actions for authorities in the selected location.</p>
+      </div>
+      <p class="notice"><span data-icon="info"></span><span><strong>Demo recommendations.</strong> The AI module has not been integrated yet, so these are placeholder recommendations.</span></p>
+      <ol class="plan">
+        <li>
+          <span class="num">1</span>
+          <div class="ico" data-icon="alert"></div>
+          <div><h3>Alert local emergency response teams</h3></div>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <div class="ico" data-icon="hospital"></div>
+          <div><h3>Keep nearby hospitals prepared</h3></div>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <div class="ico" data-icon="river"></div>
+          <div><h3>Monitor nearby river areas</h3></div>
+        </li>
+        <li>
+          <span class="num">4</span>
+          <div class="ico" data-icon="building"></div>
+          <div><h3>Prepare evacuation shelters</h3></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><strong>RESQOS – AI-Powered Decision Support System</strong><br>Heavy-rain preparedness decision support for Uttarakhand.</div>
+      <div><a href="index.html">← Back to Home</a></div>
+    </div>
+    <small>A university minor project. Prototype for academic demonstration only; all values shown are dummy data and this is not an operational emergency system.</small>
+  </div>
+</footer>
+</body>
+</html>
